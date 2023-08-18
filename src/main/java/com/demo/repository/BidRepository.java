@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface BidRepository extends JpaRepository<Bid, Long> {
     List<Bid> findByStatus(BidStatus bidStatus);
-}
+
+   List<Bid> findBidsByBuyerId(long buyerId);
+
+ }
