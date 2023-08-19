@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,7 @@ public class NegotialeApiController {
      * @param prompt the prompt to send to the API
      * @return first message from the API response
      */
+    @CrossOrigin(origins = "*")
     @PostMapping("/api/chat")
     public ResponseEntity<NegotiateApiResponse> chat(@RequestBody NegotiateApiRequest req) {
         logger.info("inside chat controller: prompt = {}", req.getPrompt());       
@@ -44,7 +46,7 @@ public class NegotialeApiController {
         }
         return new ResponseEntity<>(chatResponse, HttpStatus.OK);
     }
-    
+    @CrossOrigin(origins = "*")
     @PostMapping("/chat")
     public ResponseEntity<NegotiateApiResponse> chatApi(@RequestBody NegotiateApiRequest req) {
         logger.info("inside chat controller: prompt = {}", req.getPrompt());

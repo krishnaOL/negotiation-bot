@@ -14,14 +14,14 @@ public class CarController {
 
     @Autowired
     private CarRepository carRepository;
-
+    @CrossOrigin(origins = "*")
     @PostMapping
     public ResponseEntity<String> listCarForSale(@RequestBody Car car) {
         car.setSoldOut(false);
         carRepository.save(car);
         return ResponseEntity.ok("Car listed for sale successfully.");
     }
-
+    @CrossOrigin(origins = "*")
     @GetMapping
     public ResponseEntity<List<Car>> getAllAvailableCars(@RequestParam(name = "soldOut") boolean soldOut) {
         List<Car> cars = carRepository.findCarsBySoldOutIs(soldOut);
