@@ -46,11 +46,19 @@ public class BidController {
         return ResponseEntity.ok("Bid placed successfully.");
     }
     @CrossOrigin(origins = "*")
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<Bid>> getBidHistory(@PathVariable Long userId) {
-        List<Bid> bidHistory = bidRepository.findBidsByBuyerId(userId);
+    @GetMapping("/buyer/{buyerId}")
+    public ResponseEntity<List<Bid>> getBidHistoryByBuyer(@PathVariable Long buyerId) {
+        List<Bid> bidHistory = bidRepository.findBidsByBuyerId(buyerId);
         return ResponseEntity.ok(bidHistory);
     }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/car/{carId}")
+    public ResponseEntity<List<Bid>> getBidHistoryByCar(@PathVariable Long carId) {
+        List<Bid> bidHistory = bidRepository.findBidsByCarId(carId);
+        return ResponseEntity.ok(bidHistory);
+    }
+
     @CrossOrigin(origins = "*")
     @GetMapping("/{bidId}/status")
     public ResponseEntity<BidResponse> getBidStatus(@PathVariable Long bidId) {
@@ -63,7 +71,6 @@ public class BidController {
             return ResponseEntity.notFound().build();
         }
     }
-
     private BidResponse constructBidResponse(Bid bid) {
         if (bid.getStatus() == BidStatus.ACCEPTED) {
             return new BidResponse(true, bid.getBidAmount(), "Your offer has been accepted.",

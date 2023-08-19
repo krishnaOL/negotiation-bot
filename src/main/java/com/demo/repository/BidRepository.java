@@ -12,4 +12,6 @@ public interface BidRepository extends JpaRepository<Bid, Long> {
 
    List<Bid> findBidsByBuyerId(long buyerId);
 
+    List<Bid> findBidsByCarId(long carId);
+
  }
