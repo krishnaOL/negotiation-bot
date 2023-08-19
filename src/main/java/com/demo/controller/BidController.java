@@ -32,7 +32,7 @@ public class BidController {
 
     @Autowired
     private CarRepository carRepository;
-
+    @CrossOrigin(origins = "*")
     @PostMapping
     public ResponseEntity<String> placeBid(@RequestBody BidRequest bidRequest) {
         Bid bid = new Bid();
@@ -45,13 +45,13 @@ public class BidController {
         bidProcessorService.processBids(); // Trigger bid processing
         return ResponseEntity.ok("Bid placed successfully.");
     }
-
+    @CrossOrigin(origins = "*")
     @GetMapping("/{userId}")
     public ResponseEntity<List<Bid>> getBidHistory(@PathVariable Long userId) {
         List<Bid> bidHistory = bidRepository.findBidsByBuyerId(userId);
         return ResponseEntity.ok(bidHistory);
     }
-
+    @CrossOrigin(origins = "*")
     @GetMapping("/{bidId}/status")
     public ResponseEntity<BidResponse> getBidStatus(@PathVariable Long bidId) {
         Optional<Bid> bidOptional = bidRepository.findById(bidId);
