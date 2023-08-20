@@ -58,6 +58,7 @@ public class MessageService {
         aiMessage.setRole(Role.assistant.name());
         aiMessage.setBuyer(buyer);
         aiMessage.setContent(aiResponse);
+        aiMessage.setCreatedTime(LocalDateTime.now());
         messageRepository.save(aiMessage);
         return aiResponse;
     }
