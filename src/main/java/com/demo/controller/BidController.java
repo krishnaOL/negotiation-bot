@@ -37,12 +37,12 @@ public class BidController {
     public ResponseEntity<String> placeBid(@RequestBody BidRequest bidRequest) {
         Bid bid = new Bid();
         bid.setStatus(BidStatus.PENDING);
-        bid.setBidAmount(bid.getBidAmount());
+        bid.setBidAmount(bidRequest.getBidAmount());
         bid.setMaxBidAmount(bidRequest.getMaxBidAmount());
         bid.setBuyer(userRepository.findById(bidRequest.getBuyerId()).get());
         bid.setCar(carRepository.findById(bidRequest.getCarId()).get());
         bidRepository.save(bid);
-        bidProcessorService.processBids(); // Trigger bid processing
+       // bidProcessorService.processBids(); // Trigger bid processing
         return ResponseEntity.ok("Bid placed successfully.");
     }
     @CrossOrigin(origins = "*")
