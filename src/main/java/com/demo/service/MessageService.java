@@ -1,10 +1,12 @@
 package com.demo.service;
 
+import com.demo.entity.Car;
 import com.demo.entity.Message;
 import com.demo.entity.User;
 import com.demo.model.ChatRequest;
 import com.demo.model.OpenAIResponse;
 import com.demo.model.Role;
+import com.demo.repository.CarRepository;
 import com.demo.repository.MessageRepository;
 import com.demo.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -30,6 +33,9 @@ public class MessageService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private CarRepository carRepository;
 
     @Value("${openai.api.key}")
     private String openaiApiKey;
@@ -50,9 +56,12 @@ public class MessageService {
             userMessage.setCreatedTime(LocalDateTime.now());
             messageRepository.save(userMessage);
         }
+        
+      Car carDetails = carRepository.findById(chatRequest.getCarId()).get();
+       
 
         List<Message> conversationHistory = messageRepository.findMessagesByBuyerIdOrderByCreatedTimeAsc(buyer.getId());
-        String aiResponse = getAiResponse(conversationHistory);
+        String aiResponse = getAiResponse(conversationHistory, carDetails);
 
         Message aiMessage = new Message();
         aiMessage.setRole(Role.assistant.name());
@@ -67,11 +76,12 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
-    private String getAiResponse(List<Message> conversationHistory) {
+    private String getAiResponse(List<Message> conversationHistory, Car carDetails) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         headers.set("Authorization", "Bearer " + openaiApiKey);
+
         String carInformation ="";
         String terms = " I wish to sell a vehicle at the best feasible price, " +
                 " which is as follows.Sell at a price that is higher than the asking price or Evaluate whether the " +
@@ -79,6 +89,9 @@ public class MessageService {
                 " 7% by 2%. If the requested price is less than 10% of the listed price, please provide alternative " +
                 " vehicles that may fit the budget. Alternately, offer a free six-month or two-month warranty extension " +
                 " and see if the customer will agree to the listed price plus or minus 5%. ";
+
+
+
         List<Map<String, String>> messages = new ArrayList<>();
         messages.add(Map.of("role", "system", "content", " You are an AI-driven seller's assistant. " +
                 "Your role is to assist sellers in negotiating deals with potential buyers based on their terms. " +

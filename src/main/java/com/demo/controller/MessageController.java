@@ -24,7 +24,7 @@ public class MessageController {
     @PostMapping
     public ResponseEntity<ChatResponse> chat(@RequestBody ChatRequest chatRequest) {
         String message = messageService.chatAndStoreHistory(chatRequest);
-        log.info("inside chat controller: prompt = {}", chatRequest.getPrompt());
+       // log.info("inside chat controller: prompt = {}", chatRequest.getPrompt());
         ChatResponse chatResponse = new ChatResponse();
         chatResponse.setAnswer(message);
         return new ResponseEntity<>(chatResponse, HttpStatus.OK);

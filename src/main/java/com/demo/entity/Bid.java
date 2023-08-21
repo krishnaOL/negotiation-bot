@@ -32,6 +32,54 @@ public class Bid {
     @Enumerated(EnumType.STRING)
     private BidStatus status; // PENDING, ACCEPTED, REJECTED
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Car getCar() {
+		return car;
+	}
+
+	public void setCar(Car car) {
+		this.car = car;
+	}
+
+	public User getBuyer() {
+		return buyer;
+	}
+
+	public void setBuyer(User buyer) {
+		this.buyer = buyer;
+	}
+
+	public double getBidAmount() {
+		return bidAmount;
+	}
+
+	public void setBidAmount(double bidAmount) {
+		this.bidAmount = bidAmount;
+	}
+
+	public double getMaxBidAmount() {
+		return maxBidAmount;
+	}
+
+	public void setMaxBidAmount(double maxBidAmount) {
+		this.maxBidAmount = maxBidAmount;
+	}
+
+	public BidStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(BidStatus status) {
+		this.status = status;
+	}
+
     // Other bid details
 
 
