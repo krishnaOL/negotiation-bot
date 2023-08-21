@@ -42,7 +42,7 @@ public class BidController {
         bid.setBuyer(userRepository.findById(bidRequest.getBuyerId()).get());
         bid.setCar(carRepository.findById(bidRequest.getCarId()).get());
         bidRepository.save(bid);
-        bidProcessorService.processBids(); // Trigger bid processing
+      //  bidProcessorService.processBids(); // Trigger bid processing
         return ResponseEntity.ok("Bid placed successfully.");
     }
     @CrossOrigin(origins = "*")

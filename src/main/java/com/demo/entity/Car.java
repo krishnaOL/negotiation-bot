@@ -16,6 +16,8 @@ public class Car {
 
     @Column(name = "make")
     private String make;
+    @Column(name = "terms")
+    private String terms;
     @Column(name = "model")
     private String model;
     @Column(name = "car_year")
@@ -29,6 +31,7 @@ public class Car {
     @JoinColumn(nullable = true)
     @ManyToOne
     private User buyer; // Stores the buyer associated with the accepted bid
+
 
 
 

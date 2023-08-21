@@ -49,6 +49,7 @@ public class BidProcessorService {
     private void negotiateBid(Bid bid) {
         Car car = bid.getCar();
         if(car.getSoldOut()){
+            bid.setStatus(BidStatus.REJECTED);
             return;
         }
         double initialOffer = calculateInitialOffer(car.getMinBidAmount());
