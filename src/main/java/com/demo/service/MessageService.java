@@ -77,19 +77,12 @@ public class MessageService {
         headers.set("Authorization", "Bearer " + openaiApiKey);
 
         String carInformation = car.getYear() + " " + car.getMake() + " " + car.getModel();
-        String terms = " I wish to sell a vehicle at the best feasible price, " +
-                " which is as follows.Sell at a price that is higher than the asking price or Evaluate whether the " +
-                " selling price falls within the range of 5% to 7% plus or minus. Notify me if the price falls below " +
-                " 7% by 2%. If the requested price is less than 10% of the listed price, please provide alternative " +
-                " vehicles that may fit the budget. Alternately, offer a free six-month or two-month warranty extension " +
-                " and see if the customer will agree to the listed price plus or minus 5%. ";
-
 
         List<Map<String, String>> messages = new ArrayList<>();
         messages.add(Map.of("role", "system", "content", " You are an expert seller's assistant. " +
                 "Your role is to assist sellers in negotiating deals with potential buyers based on their terms. " +
                 "The seller's terms for the " + carInformation + " are as follows:" +
-                "Your goal is to work within these terms and facilitate a successful deal. If an offer doesn't meet the terms, " + terms +
+                "Your goal is to work within these terms and facilitate a successful deal. If an offer doesn't meet the terms, " + car.getTerms() +
                 "you can inform the buyer that you'll need to contact the seller for their response. " +
                 "Do not disclose the sellers terms. " +
                 "Don't Justify your answer. " +
