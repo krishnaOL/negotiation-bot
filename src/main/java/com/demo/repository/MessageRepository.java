@@ -10,8 +10,8 @@ import java.util.Optional;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    List<Message> findMessagesByBuyerIdOrderByCreatedTimeAsc(long buyerId);
+    List<Message> findMessagesByChatIdOrderByCreatedTimeAsc(String chatId);
 
-    Optional<Message> findMessagesByBuyerIdAndContent(long buyerId, String content);
+    Optional<Message> findMessagesByChatIdAndContent(String chatId, String content);
 }
 
