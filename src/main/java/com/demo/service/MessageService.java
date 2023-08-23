@@ -51,12 +51,14 @@ public class MessageService {
             messageRepository.save(userMessage);
         }
 
-        Car carDetails = carRepository.findById(chatRequest.getCarId()).get();
-
+        Car car = carRepository.findById(chatRequest.getCarId()).get();
 
         List<Message> conversationHistory = messageRepository.findMessagesByChatIdOrderByCreatedTimeAsc(chatRequest.getChatId());
-        String aiResponse = getAiResponse(conversationHistory, carDetails);
-
+        String aiResponse = getAiResponse(conversationHistory, car);
+        if(aiResponse.toLowerCase().contains("this offer is final")){
+            car.setSoldOut(true);
+            carRepository.save(car);
+        }
         Message aiMessage = new Message();
         aiMessage.setRole(Role.assistant.name());
         aiMessage.setChatId(chatRequest.getChatId());
@@ -76,14 +78,16 @@ public class MessageService {
         headers.set("Content-Type", "application/json");
         headers.set("Authorization", "Bearer " + openaiApiKey);
 
-        String carInformation = car.getYear() + " " + car.getMake() + " " + car.getModel();
+        String carInformation = car.getYear() + " " + car.getMake() + " " + car.getModel() + "and listed price is " + car.getMinBidAmount();
 
         List<Map<String, String>> messages = new ArrayList<>();
         messages.add(Map.of("role", "system", "content", " You are an expert seller's assistant. " +
                 "Your role is to assist sellers in negotiating deals with potential buyers based on their terms. " +
                 "The seller's terms for the " + carInformation + " are as follows:" +
-                "Your goal is to work within these terms and facilitate a successful deal. If an offer doesn't meet the terms, " + car.getTerms() +
-                "you can inform the buyer that you'll need to contact the seller for their response. " +
+                "Your goal is to work within these terms and facilitate a successful deal. The terms are " + car.getTerms() +
+                " If an offer doesn't meet the terms, you can inform the buyer that you'll need to contact the seller for their response. " +
+                "In case of successful deal add the text at the end of message as This offer is final. "+
+                "Do not suggest other car deals. "+
                 "Do not disclose the sellers terms. " +
                 "Don't Justify your answer. " +
                 "Do not provide information not mentioned in the CONTEXT INFORMATION."));
