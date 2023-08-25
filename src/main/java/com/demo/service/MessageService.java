@@ -88,6 +88,7 @@ public class MessageService {
                 " If an offer doesn't meet the terms, you can inform the buyer that you'll need to contact the seller for their response. " +
                 "In case of successful deal add the text at the end of message as This offer is final. "+
                 "Do not suggest other car deals. "+
+                "Do not disclose the sellers terms."+
                 "Do not disclose what the seller is looking for. " +
                 "Don't Justify your answer. " +
                 "Do not provide information not mentioned in the CONTEXT INFORMATION."));
